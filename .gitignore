@@ -1,0 +1,6 @@
+*.*
+!*.cs
+!.gitignore
+!*.py
+!*.java
+!*.md
