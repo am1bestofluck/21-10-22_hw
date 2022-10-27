@@ -122,7 +122,7 @@ class two_dimensional_array
     {
         //ахаха :(
         string sup_val_line;
-        double sum_buffer;
+        double sum_buffer,avg;
         string left_border = "| ", right_border = " |", separator = " | ",implication=" ==> ";
         string[] sup_arr_line;
         int max_expression_length = 0;
@@ -158,7 +158,8 @@ class two_dimensional_array
             {
                 sup_arr_line[normalize] = sup_arr_line[normalize].PadRight(max_expression_length);
             }
-            sup_val_line = $"{left_border}{string.Join(separator, sup_arr_line)}{right_border}{implication}{sum_buffer}";
+            avg=sum_buffer/array_2d_i.GetLength(0);
+            sup_val_line = $"{left_border}{string.Join(separator, sup_arr_line)}{right_border}{implication}{avg}";
             WriteLine(sup_val_line);
         }
         WriteLine(strikethrough);
