@@ -177,7 +177,7 @@ class two_dimensional_array
     }
     public dynamic main()
     {
-        Clear();
+        // Clear();
         two_dimensional_array.todo(1);
         print_2d_array(array_2d_i: this.content_random_fractured_numbers);
         two_dimensional_array.todo(2);
