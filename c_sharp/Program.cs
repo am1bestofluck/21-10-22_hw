@@ -9,20 +9,23 @@ void basic()
 }
 void extended()
 {
-    WriteLine("Рандомим массив длиной в половину int32");
+    
     big_data t4_0 = new big_data();
-    // WriteLine(String.Join(", ",t4_0.represent_main()));
-    WriteLine("Рандомим массив длиной в почти int32");
-    big_data t4_1 = new big_data(size_i:Int32.MaxValue /100*99);
-    // WriteLine(String.Join(", ",t4_1.represent_main()));
-    // big_data t4_1 = new big_data(min_val_i:10,max_val_i:11,size_i:50);
+    big_data t4_1 = new big_data();
     WriteLine(@"Дома на заполнение на дефолтных настройках ушло 9 и 18 секунд,
 на работе половинка даже не скомпиллировалось, зависло намертво.
 Вот вам и цена алгоритмов, никаких сортировок не надо.");
-    int[] nested_cycle_iteration=t4_0.matching_nested_cycle(arr_inc:t4_1.represent_main(),arr_self:t4_0.represent_main());
-    
-    string tmp=nested_cycle_iteration.Length==0? "В массивах совпадений не нашлось": $"{String.Join(", ",nested_cycle_iteration)}";
+    int[] nested_cycle_iteration = t4_0.matching_nested_cycle(arr_inc: t4_1.represent_main(), arr_self: t4_0.represent_main());
+    int estimated_shortcut_lenght=String.Join(", ", nested_cycle_iteration).Length>50? 50: String.Join(", ", nested_cycle_iteration).Length-1; 
+    string tmp = nested_cycle_iteration.Length == 0 ? "В массивах совпадений не нашлось" : @$"Нашлось {nested_cycle_iteration.Length} совпадений. 
+Например: {String.Join(", ", nested_cycle_iteration).Substring(0,estimated_shortcut_lenght)}...";
     WriteLine(tmp);
+    HashSet<int> hash_set_match = t4_0.matching_hash_sets(arr_inc: t4_1.represent_main(), arr_self: t4_0.represent_main());
+    string tmp1 = hash_set_match.Count == 0 ? "В массивах совпадений не нашлось" : @$"Нашлоcь {hash_set_match.Count} совпадений, например {String.Join(", ", hash_set_match).Substring(0, 50)}...";
+    WriteLine(tmp1);
+
+
+
 }
 basic();
 extended();
