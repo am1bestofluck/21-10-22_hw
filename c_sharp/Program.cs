@@ -13,9 +13,9 @@ void extended1()
     
     big_data t4_0 = new big_data();
     big_data t4_1 = new big_data();
-    WriteLine(@"Дома на заполнение на дефолтных настройках ушло 9 и 18 секунд,
-на работе половинка даже не скомпиллировалось, зависло намертво.
-Вот вам и цена алгоритмов, никаких сортировок не надо.");
+//     WriteLine(@"Дома на заполнение на дефолтных настройках ушло 9 и 18 секунд,
+// на работе половинка даже не скомпиллировалось, зависло намертво.
+// Вот вам и цена алгоритмов, никаких сортировок не надо.");
     int[] nested_cycle_iteration = t4_0.matching_nested_cycle(arr_inc: t4_1.represent_main(), arr_self: t4_0.represent_main());
     int estimated_shortcut_lenght=String.Join(", ", nested_cycle_iteration).Length>50? 50: String.Join(", ", nested_cycle_iteration).Length;
     string clearly_I_have_too_much_time= nested_cycle_iteration.Length==1? "...":"";
@@ -34,11 +34,12 @@ void extended1()
 
 void extended2()
 {
-    WriteLine("Не знаю, не знаю - в одно рыло осваивать такой контент это довольно спорный ход.");
-    // t5.Ring<int> qwe= new t5.Ring<int>(0);
-    t5.Chain<t5.Ring<int>>.main();
+    WriteLine("Вложенные циклы не успеваю =\\");
+//     WriteLine("Не знаю, не знаю - в одно рыло осваивать такой контент это довольно спорный ход.");
+//     // t5.Ring<int> qwe= new t5.Ring<int>(0);
+//     t5.Chain<t5.Ring<int>>.main();
 }
 
-// basic();
-// extended1();
+basic();
+extended1();
 extended2();
