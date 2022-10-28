@@ -5,7 +5,7 @@ using static System.Console;
 class big_data
 {
     const int min_val_default = Int32.MinValue, max_val_default = Int32.MaxValue, size_default = 10000000;
-    // const int min_val_default = 0, max_val_default = 1000, size_default = 10000000;
+    // const int min_val_default = 0, max_val_default = 1000, size_default = 10000000;// если нужно что попроще
     int min_val, max_val, size;
     int[] body;
     public big_data(int? min_val_i = null, int? max_val_i = null, int? size_i = null)
@@ -54,7 +54,7 @@ class big_data
     public dynamic matching_nested_cycle(int[] arr_inc, int[] arr_self)
     {
         WriteLine(@"Начинаем переборку вложенными циклами. Продолжительность при тестировании на БОЛЬШИХ объемах информации кошмарно долгая, ну или Я что-то не так делаю.
-Прикрываем лавочку через минуту, выводим в консоль если есть совпадение.");
+Прикрываем лавочку через минуту, потому что в целом и так всё понятно.");
         Stopwatch nested_cycle = new Stopwatch();
         List<int> tmp_collection= new List<int>();
         int len_supval_oberved=arr_inc.Length,  len_supval_insider= arr_self.Length;
@@ -70,7 +70,8 @@ class big_data
             {
                 if (arr_self[find_this]==arr_inc[look_there])
                 {
-                    WriteLine($"Обнаружили совпадение элемента {arr_self[find_this]}");
+                    stack_overflow_wisdom();
+                    WriteLine($"Обнаружили совпадение элемента {arr_self[find_this]}\n");
                     tmp_collection.Add(arr_inc[look_there]);// это дальше перебросим в массив- вывод
                     buffer=arr_inc[sorted_part];
                     arr_inc[sorted_part]=arr_inc[look_there];
@@ -121,7 +122,7 @@ class big_data
         output.UnionWith(arr_self_m); //(arr_self_m);
         output.IntersectWith(arr_inc_m);
         TimeSpan hash_set_cut_line=hash_set.Elapsed;
-        WriteLine($"Обнаружение совпадений через хеш-сеты заняло {hash_set_cut_line.TotalSeconds} секунд.");
+        WriteLine($"Обнаружение совпадений через хеш-сеты заняло {((int)hash_set_cut_line.TotalSeconds)} секунд.");
         hash_set.Stop();
         return output;
 
