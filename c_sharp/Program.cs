@@ -20,7 +20,8 @@ void extended()
 на работе половинка даже не скомпиллировалось, зависло намертво.
 Вот вам и цена алгоритмов, никаких сортировок не надо.");
     int[] nested_cycle_iteration=t4_0.matching_nested_cycle(arr_inc:t4_1.represent_main(),arr_self:t4_0.represent_main());
-    string tmp=nested_cycle_iteration.Length==0? "В массивах совпадений не нашлось": $"{String.Join(", ",nested_cycle_iteration)}"; //");//.Substring(0,15)}...";
+    
+    string tmp=nested_cycle_iteration.Length==0? "В массивах совпадений не нашлось": $"{String.Join(", ",nested_cycle_iteration)}";
     WriteLine(tmp);
 }
 basic();

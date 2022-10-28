@@ -71,11 +71,12 @@ class big_data
                 }
                 if (nested_cycle.Elapsed.TotalSeconds>180)
                 {
+                     WriteLine($"Обошли второй список, {find_this+1} раз за {((int)nested_cycle.Elapsed.TotalSeconds)} секунд.");
                     goto Loop_end;
                 }
                 
             }
-            WriteLine($"Обошли второй список, {find_this+1} раз за {((int)nested_cycle.Elapsed.TotalSeconds)} секунд.");
+           
         }
         Loop_end:
         nested_cycle.Stop();
@@ -83,5 +84,31 @@ class big_data
         WriteLine($"Обнаружение совпадений через вложенные циклы заняло {expected_horribly_long_waiting.TotalSeconds} секунд.");
         int[] output=convert_list_to_array(tmp_collection);
         return output;
+    }
+    public dynamic matching_hash_sets(int[] arr_inc, int[] arr_self)
+    {
+        WriteLine(@"Начинаем переборку хешсетами... Условие трех минут в силе,
+ но возможно для всех сценариев будет 5 минут на всё про всё и посмотрим
+ какой вариант напроверяет больше.");
+        Stopwatch hash_set = new Stopwatch();
+        HashSet<int> arr_inc_m =new HashSet<int>();
+        HashSet<int> arr_self_m = new HashSet<int>();
+        HashSet<int> output= new HashSet<int>();
+        foreach (var item in arr_inc)
+        {
+            arr_inc_m.Add(item);
+        }
+        foreach (var item in arr_self)
+        {
+            arr_self_m.Add(item);
+        }
+        output.Union(arr_self);
+        output.IntersectWith(arr_inc_m);
+        TimeSpan hash_set_cut_line=hash_set.Elapsed;
+        WriteLine($"Обнаружение совпадений через хеш-сеты заняло {hash_set_cut_line.TotalSeconds} секунд.");
+        hash_set.Stop();
+        return output;
+
+
     }
 }
