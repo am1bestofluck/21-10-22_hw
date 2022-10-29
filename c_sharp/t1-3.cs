@@ -3,8 +3,8 @@ class two_dimensional_array
 {
     int rows;
     int columns;
-    double[,] content_random_whole_numbers;
-    double[,] content_random_fractured_numbers;
+    double[,] contentWhole;
+    double[,] contentFractured;
     const int min_i = -1000, max_i = 1000;
     public static void todo(int task)
     {
@@ -34,15 +34,15 @@ class two_dimensional_array
                 }
         }
     }
-    public two_dimensional_array(int width_i, int height_i)
+    public two_dimensional_array(int rows, int columns)
     {
-        this.rows = width_i;
-        this.columns = height_i;
-        this.content_random_whole_numbers = new double[this.rows, this.columns];
-        this.content_random_whole_numbers = initial_array_randomization(array_2d_i: this.content_random_whole_numbers);
-        this.content_random_fractured_numbers = add_random_fraсtional_part(array_2d_i: this.content_random_whole_numbers);
+        this.rows = rows;
+        this.columns = columns;
+        this.contentWhole = new double[this.rows, this.columns];
+        this.contentWhole = init(array_2d_i: this.contentWhole);
+        this.contentFractured = wholeToFractured(array_2d_i: this.contentWhole);
     }
-    protected static double[,] initial_array_randomization(double[,] array_2d_i, int limit_lower = min_i, int limit_upper = max_i)
+    protected static double[,] init(double[,] array_2d_i, int min = min_i, int max = max_i)
     {
         double[,] array_2d_o = new double[array_2d_i.GetLength(0), array_2d_i.GetLength(1)];
         Random content = new Random();
@@ -51,12 +51,12 @@ class two_dimensional_array
         {
             for (int column = 0; column < array_2d_i.GetLength(1); column++)
             {
-                array_2d_o[row, column] = content.Next(limit_lower, limit_upper);
+                array_2d_o[row, column] = content.Next(min, max);
             }
         }
         return array_2d_o;
     }
-    protected static double[,] add_random_fraсtional_part(double[,] array_2d_i, int min = min_i, int max = max_i)
+    protected static double[,] wholeToFractured(double[,] array_2d_i, int min = min_i, int max = max_i)
     {
         double[,] array_2d_o = new double[array_2d_i.GetLength(0), array_2d_i.GetLength(1)];
         double[] extend_NextDouble = new double[2];//Не удалю.
@@ -75,68 +75,65 @@ class two_dimensional_array
         }
         return array_2d_o;
     }
-    public static void print_2d_array(double[,] array_2d_i)
+    public static void onScreen(double [,] array_2d_i)//достаточно кодстайлово?
     {
         WriteLine();
-        int size_rows=array_2d_i.GetLength(0), size_columns=array_2d_i.GetLength(1);
-        for (int row = 0; row < size_rows; row++)
+        int rows=array_2d_i.GetLength(0), columns=array_2d_i.GetLength(1);
+        for (int row = 0; row < rows; row++)
         {
-            for (int column = 0; column < size_columns; column++)
+            for (int column = 0; column < columns; column++)
             {
                 Write($"{array_2d_i[row,column]} ");
             }
             WriteLine();
         }
-        
     }
 
-    public static void summarize_lines(double[,] array_2d_i)
+    public static void showAverageMean(double[,] array_2d_i)
     {
+        int rows=array_2d_i.GetLength(0), columns=array_2d_i.GetLength(1);
         WriteLine();
         Dictionary<int,double> ne_sli6kom_slojno_je = new Dictionary<int, double>();
         double tmp_sum;
-        int size_rows=array_2d_i.GetLength(0), size_columns=array_2d_i.GetLength(1);
-        for (int row = 0; row < size_rows; row++)
+        for (int column = 0; column < columns; column++)
         {
             tmp_sum=0;
-            for (int column = 0; column < size_columns; column++)
+            for (int row = 0; row < rows; row++)
             {
-                Write($"{array_2d_i[row,column]} ");
                 tmp_sum+=array_2d_i[row,column];
             }
             ne_sli6kom_slojno_je.Add(
-                row,
-                Math.Round(tmp_sum/(size_columns*1.0),2)
-                );
-            WriteLine();
+                column,
+                Math.Round(tmp_sum*1.0/rows,2));
         }
         foreach (var item in ne_sli6kom_slojno_je)
         {
             WriteLine($"Cреднее {item.Key} = {item.Value}");  
         }
     }
-    public dynamic get_value_by_indexes(int position_horizontal, int position_vertical,double[,] array_2d_i)
+
+    public dynamic getValue(int row, int column,double[,] array_2d_i)
     {
-        string output=$"Размерность массива не соответсвует запросу [{position_horizontal},{position_vertical}]";
-        if (position_horizontal>array_2d_i.GetLength(0)||position_vertical>array_2d_i.GetLength(1))
+        string output=$"Размерность массива не соответсвует запросу [{row},{column}]";
+        if (row>array_2d_i.GetLength(0)||column>array_2d_i.GetLength(1))
         {
             return output;
         }
-        output=$"Значение по адресу [{position_horizontal-1}, {position_vertical-1}]: {array_2d_i[position_horizontal-1,position_vertical-1]}";
+        output=$"Значение по адресу [{row-1}, {column-1}]: {array_2d_i[row-1,column-1]}";
         return output;
     }
     public dynamic main()
     {
-        // Clear();
         two_dimensional_array.todo(1);
-        print_2d_array(array_2d_i: this.content_random_fractured_numbers);
+        onScreen(array_2d_i: this.contentFractured);
         two_dimensional_array.todo(2);
-        WriteLine(get_value_by_indexes(
-            position_horizontal:validate_input("Строка элемента?"),
-            position_vertical:validate_input("Столбец элемента?"),
-            array_2d_i:this.content_random_fractured_numbers));
+        WriteLine(getValue(
+            row:validate_input("Строка элемента?"),
+            column:validate_input("Столбец элемента?"),
+            array_2d_i:this.contentFractured));
         two_dimensional_array.todo(3);
-        summarize_lines(array_2d_i:this.content_random_whole_numbers);
+        onScreen(array_2d_i:this.contentWhole);
+        showAverageMean(array_2d_i:this.contentWhole);
 
         return null!;
     }
