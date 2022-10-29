@@ -1,11 +1,11 @@
 using static System.Console;
 class two_dimensional_array
 {
-    int width;
-    int height;
+    int rows;
+    int columns;
     double[,] content_random_whole_numbers;
     double[,] content_random_fractured_numbers;
-    const int border_lower = -1000, border_upper = 1000;
+    const int min_i = -1000, max_i = 1000;
     public static void todo(int task)
     {
         WriteLine();
@@ -18,7 +18,8 @@ class two_dimensional_array
                 }
             case 2:
                 {
-                    WriteLine("Напишите программу, которая на вход принимает позиции элемента в двумерном массиве, и возвращает значение этого элемента или же указание, что такого элемента нет.");
+                    WriteLine(@"Напишите программу, которая на вход принимает позиции элемента в двумерном массиве, и возвращает значение этого элемента или же указание, что такого элемента нет.
+Нюанс. Всякий пользователь знает что колонки и строки Мы считаем с единички.");
                     break;
                 }
             case 3:
@@ -35,135 +36,84 @@ class two_dimensional_array
     }
     public two_dimensional_array(int width_i, int height_i)
     {
-        this.width = width_i;
-        this.height = height_i;
-        this.content_random_whole_numbers = new double[this.width, this.height];
+        this.rows = width_i;
+        this.columns = height_i;
+        this.content_random_whole_numbers = new double[this.rows, this.columns];
         this.content_random_whole_numbers = initial_array_randomization(array_2d_i: this.content_random_whole_numbers);
         this.content_random_fractured_numbers = add_random_fraсtional_part(array_2d_i: this.content_random_whole_numbers);
     }
-    protected dynamic initial_array_randomization(double[,] array_2d_i, int limit_lower = border_lower, int limit_upper = border_upper)
+    protected static double[,] initial_array_randomization(double[,] array_2d_i, int limit_lower = min_i, int limit_upper = max_i)
     {
         double[,] array_2d_o = new double[array_2d_i.GetLength(0), array_2d_i.GetLength(1)];
         Random content = new Random();
 
-        for (int horizontal_step = 0; horizontal_step < array_2d_i.GetLength(0); horizontal_step++)
+        for (int row = 0; row < array_2d_i.GetLength(0); row++)
         {
-            for (int vertical_step = 0; vertical_step < array_2d_i.GetLength(1); vertical_step++)
+            for (int column = 0; column < array_2d_i.GetLength(1); column++)
             {
-                array_2d_o[horizontal_step, vertical_step] = content.Next(limit_lower, limit_upper);
+                array_2d_o[row, column] = content.Next(limit_lower, limit_upper);
             }
         }
         return array_2d_o;
     }
-    protected dynamic add_random_fraсtional_part(double[,] array_2d_i, int limit_lower = border_lower, int limit_upper = border_upper)
+    protected static double[,] add_random_fraсtional_part(double[,] array_2d_i, int min = min_i, int max = max_i)
     {
         double[,] array_2d_o = new double[array_2d_i.GetLength(0), array_2d_i.GetLength(1)];
-        double[] yeah_no = new double[2];
+        double[] extend_NextDouble = new double[2];//Не удалю.
         Random content = new Random();
         double fractional_part;
 
-        for (int horizontal_step = 0; horizontal_step < array_2d_i.GetLength(0); horizontal_step++)
+        for (int row = 0; row < array_2d_i.GetLength(0); row++)
         {
-            for (int vertical_step = 0; vertical_step < array_2d_i.GetLength(1); vertical_step++)
+            for (int column = 0; column < array_2d_i.GetLength(1); column++)
             {
                 fractional_part = Math.Round(content.NextDouble(), 2);
-                yeah_no[0] = -fractional_part;
-                yeah_no[1] = fractional_part;
-                array_2d_o[horizontal_step, vertical_step] = array_2d_i[horizontal_step, vertical_step] + yeah_no[content.Next(yeah_no.Length)];//=) ._. не можно ругаться в комментариях XDDD
+                extend_NextDouble[0] = -fractional_part;
+                extend_NextDouble[1] = fractional_part;
+                array_2d_o[row, column] = array_2d_i[row, column] + extend_NextDouble[content.Next(extend_NextDouble.Length)];
             }
         }
         return array_2d_o;
     }
-    public dynamic print_2d_array(double[,] array_2d_i)
+    public static void print_2d_array(double[,] array_2d_i)
     {
-        //we enjoy typing или усложнение кода за счёт множественных if. ну ок =\
-        string sup_val_line;
-        string left_border = "| ", right_border = " |", separator = " | ";
-        string[] sup_arr_line;
-        int max_expression_length = 0;
-        string expression_stringified = String.Empty;
-        for (int horizontal_step = 0; horizontal_step < array_2d_i.GetLength(0); horizontal_step++)
+        WriteLine();
+        int size_rows=array_2d_i.GetLength(0), size_columns=array_2d_i.GetLength(1);
+        for (int row = 0; row < size_rows; row++)
         {
-            for (int vertical_step = 0; vertical_step < array_2d_i.GetLength(1); vertical_step++)
+            for (int column = 0; column < size_columns; column++)
             {
-                expression_stringified = array_2d_i[horizontal_step, vertical_step].ToString();
-                max_expression_length =
-                expression_stringified.Length > max_expression_length ?
-                expression_stringified.Length : max_expression_length;
+                Write($"{array_2d_i[row,column]} ");
             }
-        }//красота требует жертв, говорите?
-        max_expression_length += 2;
-        string strikethrough = new string('-',
-        max_expression_length * (array_2d_i.GetLength(0)) +
-        left_border.Length +
-        right_border.Length +
-        separator.Length * (array_2d_i.GetLength(0) - 1));
-        WriteLine(strikethrough);
-        for (int horizontal_step = 0; horizontal_step < array_2d_i.GetLength(0); horizontal_step++)
-        {
-            sup_arr_line = new string[array_2d_i.GetLength(0)];
-            for (int vertical_step = 0; vertical_step < array_2d_i.GetLength(1); vertical_step++)
-            {
-                expression_stringified = array_2d_i[horizontal_step, vertical_step].ToString();
-                sup_arr_line[vertical_step] = expression_stringified;
-            }
-            for (int normalize = 0; normalize < sup_arr_line.Length; normalize++)
-            {
-                sup_arr_line[normalize] = sup_arr_line[normalize].PadRight(max_expression_length);
-            }
-            sup_val_line = $"{left_border}{string.Join(separator, sup_arr_line)}{right_border}";
-            WriteLine(sup_val_line);
+            WriteLine();
         }
-        WriteLine(strikethrough);
-        return null!;
+        
     }
 
-    public dynamic summarize_lines(double[,] array_2d_i)
+    public static void summarize_lines(double[,] array_2d_i)
     {
-        //ахаха :(
-        string sup_val_line;
-        double sum_buffer,avg;
-        string left_border = "| ", right_border = " |", separator = " | ",implication=" ==> ";
-        string[] sup_arr_line;
-        int max_expression_length = 0;
-        string expression_stringified = String.Empty;
-        for (int horizontal_step = 0; horizontal_step < array_2d_i.GetLength(0); horizontal_step++)
+        WriteLine();
+        Dictionary<int,double> ne_sli6kom_slojno_je = new Dictionary<int, double>();
+        double tmp_sum;
+        int size_rows=array_2d_i.GetLength(0), size_columns=array_2d_i.GetLength(1);
+        for (int row = 0; row < size_rows; row++)
         {
-            for (int vertical_step = 0; vertical_step < array_2d_i.GetLength(1); vertical_step++)
+            tmp_sum=0;
+            for (int column = 0; column < size_columns; column++)
             {
-                expression_stringified = array_2d_i[horizontal_step, vertical_step].ToString();
-                max_expression_length =
-                expression_stringified.Length > max_expression_length ?
-                expression_stringified.Length : max_expression_length;
+                Write($"{array_2d_i[row,column]} ");
+                tmp_sum+=array_2d_i[row,column];
             }
+            ne_sli6kom_slojno_je.Add(
+                row,
+                Math.Round(tmp_sum/(size_columns*1.0),2)
+                );
+            WriteLine();
         }
-        max_expression_length += 2;
-        string strikethrough = new string('-',
-        max_expression_length * (array_2d_i.GetLength(0)) +
-        left_border.Length +
-        right_border.Length +
-        separator.Length * (array_2d_i.GetLength(0) - 1));
-        WriteLine(strikethrough);
-        for (int horizontal_step = 0; horizontal_step < array_2d_i.GetLength(0); horizontal_step++)
+        foreach (var item in ne_sli6kom_slojno_je)
         {
-            sum_buffer=0.0;
-            sup_arr_line = new string[array_2d_i.GetLength(0)];
-            for (int vertical_step = 0; vertical_step < array_2d_i.GetLength(1); vertical_step++)
-            {
-                sum_buffer+=array_2d_i[horizontal_step, vertical_step];
-                expression_stringified = array_2d_i[horizontal_step, vertical_step].ToString();
-                sup_arr_line[vertical_step] = expression_stringified;
-            }
-            for (int normalize = 0; normalize < sup_arr_line.Length; normalize++)
-            {
-                sup_arr_line[normalize] = sup_arr_line[normalize].PadRight(max_expression_length);
-            }
-            avg=sum_buffer/array_2d_i.GetLength(0);
-            sup_val_line = $"{left_border}{string.Join(separator, sup_arr_line)}{right_border}{implication}{avg}";
-            WriteLine(sup_val_line);
+            WriteLine($"Cреднее {item.Key} = {item.Value}");  
         }
-        WriteLine(strikethrough);
-        return null!;
     }
     public dynamic get_value_by_indexes(int position_horizontal, int position_vertical,double[,] array_2d_i)
     {
@@ -172,7 +122,7 @@ class two_dimensional_array
         {
             return output;
         }
-        output=$"Значение по адресу [{position_horizontal}, {position_vertical}]: {array_2d_i[position_horizontal,position_vertical]}";
+        output=$"Значение по адресу [{position_horizontal-1}, {position_vertical-1}]: {array_2d_i[position_horizontal-1,position_vertical-1]}";
         return output;
     }
     public dynamic main()
@@ -181,12 +131,25 @@ class two_dimensional_array
         two_dimensional_array.todo(1);
         print_2d_array(array_2d_i: this.content_random_fractured_numbers);
         two_dimensional_array.todo(2);
-        WriteLine(get_value_by_indexes(position_horizontal:1,position_vertical:100, array_2d_i:this.content_random_fractured_numbers));
-        WriteLine(get_value_by_indexes(position_horizontal:0,position_vertical:0, array_2d_i:this.content_random_fractured_numbers));
+        WriteLine(get_value_by_indexes(
+            position_horizontal:validate_input("Строка элемента?"),
+            position_vertical:validate_input("Столбец элемента?"),
+            array_2d_i:this.content_random_fractured_numbers));
         two_dimensional_array.todo(3);
         summarize_lines(array_2d_i:this.content_random_whole_numbers);
 
         return null!;
+    }
+    public static int validate_input(string invite)
+    {
+        int output=0;
+        bool is_valid=false;
+        while (output<1)
+        {
+            WriteLine(invite);
+            is_valid=Int32.TryParse(ReadLine()!, out output);
+        }
+        return output;
     }
 
 
